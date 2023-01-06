@@ -57,8 +57,8 @@ public class BasicAuthenticationConfig {
                                            OncePerRequestFilter basicAuthenticationRequestFilter
     ) throws Exception {
         return httpSecurity
-                .cors().disable()
-                .csrf().disable()
+                //.cors().disable()
+                //.csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
                 // make sure we use stateless session; session won't be used to store user's state.
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
