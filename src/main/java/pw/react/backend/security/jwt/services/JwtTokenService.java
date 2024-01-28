@@ -6,6 +6,7 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pw.react.backend.dao.TokenRepository;
 import pw.react.backend.models.Token;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class JwtTokenService implements Serializable {
 
@@ -33,7 +35,9 @@ public class JwtTokenService implements Serializable {
         USER_AGENT("user-agent"),
         X_FORWARDED_FOR("X-FORWARDED-FOR"),
         AUTHORIZATION("Authorization"),
-        BEARER("Bearer ");
+        BEARER("Bearer "),
+
+        ROLES("roles");
         final String value;
 
         Const(String value) {
@@ -74,9 +78,13 @@ public class JwtTokenService implements Serializable {
     }
 
     public String generateToken(UserDetails userDetails, HttpServletRequest request) {
+        String authorities = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
         Map<String, Object> claims = new HashMap<>();
         claims.put(Const.IP.value, getClientIp(request));
         claims.put(Const.USER_AGENT.value, getUserAgent(request));
+        claims.put(Const.ROLES.value, authorities);
         log.info("Adding ip:{} and user-agent:{} to the claims.", getClientIp(request), getUserAgent(request));
         return doGenerateToken(claims, userDetails.getUsername());
     }
@@ -121,10 +129,23 @@ public class JwtTokenService implements Serializable {
     public Boolean validateToken(String token, UserDetails userDetails, HttpServletRequest request) {
         boolean isValidToken = tokenRepository.findByValue(token).isEmpty();
         return getUsernameFromToken(token).equals(userDetails.getUsername()) &&
+                hasValidRoles(token, userDetails.getAuthorities()) &&
                 !hasTokenExpired(token) &&
                 isValidClientIp(token, request) &&
                 isValidUserAgent(token, request) &&
                 isValidToken;
+    }
+
+    private boolean hasValidRoles(String token, Collection<? extends GrantedAuthority> authorities) {
+        return authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet())
+                .containsAll(getUserRolesFromToken(token));
+    }
+
+    Collection<String> getUserRolesFromToken(String token) {
+        String roles = getClaimFromToken(token, claims -> String.valueOf(claims.get(Const.ROLES.value)));
+        return Arrays.stream(roles.split(",")).toList();
     }
 
     private boolean isValidUserAgent(String token, HttpServletRequest request) {

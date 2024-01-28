@@ -9,8 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.filter.OncePerRequestFilter;
-import pw.react.backend.dao.TokenRepository;
-import pw.react.backend.dao.UserRepository;
+import pw.react.backend.dao.*;
+import pw.react.backend.models.init.SetupDataLoader;
 import pw.react.backend.security.common.CommonUserDetailsService;
 import pw.react.backend.security.jwt.filters.JwtAuthenticationEntryPoint;
 import pw.react.backend.security.jwt.filters.JwtRequestFilter;
@@ -55,6 +55,14 @@ public class JwtConfig {
     @Bean
     public AuthenticationEntryPoint jwtAuthenticationEntryPoint() {
         return new JwtAuthenticationEntryPoint();
+    }
+
+    @Bean
+    public SetupDataLoader setupDataLoader(UserRepository userRepository,
+                                           RoleRepository roleRepository,
+                                           PrivilegeRepository privilegeRepository,
+                                           PasswordEncoder passwordEncoder) {
+        return new SetupDataLoader(userRepository, roleRepository, privilegeRepository, passwordEncoder);
     }
 
     public String getSecret() {
