@@ -1,8 +1,6 @@
 package pw.react.backend.security.jwt.services;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
@@ -20,11 +18,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import pw.react.backend.models.Role;
 import pw.react.backend.security.common.AuthenticationService;
 import pw.react.backend.security.common.CommonAuthenticationService;
+import pw.react.backend.security.jwt.models.CorsDefaultProperties;
+import pw.react.backend.security.jwt.models.CorsProperties;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Profile({"jwt"})
+@Import({CorsProperties.class, CorsDefaultProperties.class})
 public class WebJwtSecurityConfig {
 
     private final AuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -47,20 +48,20 @@ public class WebJwtSecurityConfig {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource(@Value("cors") String cors) {
+    CorsConfigurationSource corsConfigurationSource(CorsProperties corsProperties) {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.stream(cors.split(",")).toList());
-        configuration.setAllowedMethods(List.of("*"));
-        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedOrigins(Optional.ofNullable(corsProperties.getAllowedOrigins()).orElseGet(() -> List.of("*")));
+        configuration.setAllowedMethods(Optional.ofNullable(corsProperties.getAllowedMethods()).orElseGet(() -> List.of("*")));
+        configuration.setAllowedHeaders(Optional.ofNullable(corsProperties.getAllowedHeaders()).orElseGet(() -> List.of("*")));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration(Optional.ofNullable(corsProperties.getAllowedOriginPatterns()).orElseGet(() -> "/**"), configuration);
         return source;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity, CorsConfigurationSource corsConfigurationSource) throws Exception {
         return httpSecurity
-                .cors(AbstractHttpConfigurer::disable)
+                //.cors(AbstractHttpConfigurer::disable)
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
