@@ -16,6 +16,7 @@ import pw.react.backend.openapi.OpenApiConfig;
 import pw.react.backend.security.basic.BasicAuthenticationConfig;
 import pw.react.backend.security.jwt.services.JwtConfig;
 
+import javax.sql.DataSource;
 import java.util.*;
 
 import static java.util.stream.Collectors.toSet;
@@ -91,5 +92,10 @@ public class MainConfig {
                 .map(value -> Arrays.stream(value.split(",")))
                 .map(stream -> stream.collect(toSet()))
                 .orElseGet(HashSet::new);
+    }
+
+    @Bean
+    public String poolName(DataSource dataSource) {
+        return dataSource.getClass().getSimpleName();
     }
 }
