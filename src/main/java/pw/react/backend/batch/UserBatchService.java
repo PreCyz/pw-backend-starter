@@ -3,7 +3,6 @@ package pw.react.backend.batch;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pw.react.backend.dao.RoleRepository;
 import pw.react.backend.dao.UserRepository;
 import pw.react.backend.models.User;
 import pw.react.backend.services.UserMainService;
@@ -17,9 +16,8 @@ public class UserBatchService extends UserMainService {
     private final BatchRepository<User> batchRepository;
 
     public UserBatchService(UserRepository userRepository,
-                            BatchRepository<User> batchRepository,
-                            RoleRepository roleRepository) {
-        super(userRepository, roleRepository);
+                            BatchRepository<User> batchRepository) {
+        super(userRepository);
         this.batchRepository = batchRepository;
     }
 
@@ -28,7 +26,6 @@ public class UserBatchService extends UserMainService {
     public Collection<User> batchSave(Collection<User> users) {
         log.info("Batch insert.");
         if (users != null && !users.isEmpty()) {
-            setRoles(users);
             Collection<User> insertedUsers = batchRepository.insertAll(users.stream().toList());
             return userRepository.findAllByUsernameIn(insertedUsers.stream().map(User::getUsername).toList());
         } else {

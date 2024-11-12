@@ -2,7 +2,8 @@ package pw.react.backend.services;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
-import pw.react.backend.dao.*;
+import pw.react.backend.dao.CompanyRepository;
+import pw.react.backend.dao.UserRepository;
 
 @Profile("!batch")
 public class NonBatchConfig {
@@ -13,8 +14,8 @@ public class NonBatchConfig {
     }
 
     @Bean
-    public UserService userService(UserRepository userRepository, RoleRepository roleRepository) {
-        return new UserMainService(userRepository, roleRepository);
+    public UserService userService(UserRepository userRepository) {
+        return new UserMainService(userRepository);
     }
 
 }
