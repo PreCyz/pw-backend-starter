@@ -11,9 +11,7 @@ import java.util.*;
 public class CompanyMainService implements CompanyService {
     private final Logger logger = LoggerFactory.getLogger(CompanyMainService.class);
 
-    private CompanyRepository repository;
-
-    CompanyMainService() { /*Needed only for initializing spy in unit tests*/}
+    private final CompanyRepository repository;
 
     protected CompanyMainService(CompanyRepository repository) {
         this.repository = repository;

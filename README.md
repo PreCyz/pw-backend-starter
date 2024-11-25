@@ -3,7 +3,7 @@ This is the starter for the backend application.
 
 ### Installed Prerequisites
 In order to launch the application the following items must be installed:
-* [Java 17](https://adoptopenjdk.net/)
+* [Java 21](https://adoptopenjdk.net/)
 * [Maven](https://maven.apache.org/download.cgi)
 * [MySQL Community Server + Workbench](https://dev.mysql.com/downloads/installer/)
 * [Git](https://git-scm.com/downloads)
@@ -44,7 +44,7 @@ RDS_PORT 3306 //MySQL server port
 RDS_USERNAME root //database user
 SERVER_PORT 5000 //it must be 5000 and it is defined in the application.properties
 CORS urls of the frontend and backends for the bookly. Default value is *
-SPRING_PROFILES_ACTIVE prod-aws-mysql,jwt
+SPRING_PROFILES_ACTIVE aws-mysql,jwt,batch
 TOKEN_SECRET [optional] some secret value best if generated randommly
 JWT_EXPIRATION_TIME [optional] by default token expires in 24 hours, it must be given in miliseconds
 ```
@@ -65,7 +65,7 @@ MYSQL_PASSWORD MySQL password set during the creation
 MYSQL_PORT 3306 //MySQL server port
 MYSQL_USERNAME root //database user
 CORS urls of the frontend and backends for the bookly. Default value is *
-SPRING_PROFILES_ACTIVE prod-azure-mysql,jwt
+SPRING_PROFILES_ACTIVE azure-mysql,jwt,batch
 TOKEN_SECRET [optional] some secret value best if generated randommly
 JWT_EXPIRATION_TIME [optional] by default token expires in 24 hours, it must be given in miliseconds
 ```

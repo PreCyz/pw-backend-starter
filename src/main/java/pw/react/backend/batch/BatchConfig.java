@@ -37,12 +37,12 @@ public class BatchConfig {
     }
 
     @Bean
-    public CompanyBatchRepository companyBatchRepository(JdbcTemplate jdbcTemplate) {
+    public BatchRepository<Company> companyBatchRepository(JdbcTemplate jdbcTemplate) {
         return new CompanyBatchRepository(jdbcTemplate);
     }
 
     @Bean
-    public UserBatchRepository userBatchRepository(JdbcTemplate jdbcTemplate) {
+    public BatchRepository<User> userBatchRepository(JdbcTemplate jdbcTemplate) {
         return new UserBatchRepository(jdbcTemplate);
     }
 }
