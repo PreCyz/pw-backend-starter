@@ -8,6 +8,7 @@ mvnw
 mvnw.cmd
 !**/src/main/**/target/
 !**/src/test/**/target/
+.azure
 
 
 ### STS ###
