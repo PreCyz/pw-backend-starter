@@ -34,7 +34,7 @@ The following guides illustrate how to use some features concretely:
 1. Go to Elastic Bean Stalk
 2. Create new environment
 3. Create new application
-4. Choose Java 11 and MySQL database.
+4. Choose Java 25 and MySQL database.
 5. System parameters to set:
 ```
 RDS_DB_NAME ebdb //this is default db name created automatically with the application
@@ -55,7 +55,7 @@ Assumption: The subscription has been configured properly, and it is active.
 1. Go to [Quickstart Center](https://portal.azure.com/?quickstart=true#blade/Microsoft_Azure_Resources/QuickstartCenterBlade)
 2. Create a web app under new resource group.
 3. Create new application
-4. Choose Java 17 and create.
+4. Choose Java 25 and create.
 5. Under the same resource group create MySQL database engine 8. Create db schema in Workbench
 6. Environment parameters set under Configuration of Web App:
 ```
@@ -83,6 +83,7 @@ JWT_EXPIRATION_TIME [optional] by default token expires in 24 hours, it must be 
 - [Azure Idea plugin](https://docs.microsoft.com/en-us/azure/developer/java/toolkit-for-intellij/create-hello-world-web-app)
 - [Azure Toolkit plugin - Sign in instructions](https://learn.microsoft.com/en-us/azure/developer/java/toolkit-for-intellij/sign-in-instructions)
 - [Swagger url](http://localhost:8080/swagger-ui/index.html)
+- [OpenAPI description](http://localhost:8080/v3/api-docs)
 
 ### Docker
 To build and run:
