@@ -1,0 +1,11 @@
+meta {
+  name: actuator-loggers
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/actuator/loggers
+  body: none
+  auth: inherit
+}

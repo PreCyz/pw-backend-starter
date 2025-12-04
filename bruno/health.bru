@@ -1,0 +1,11 @@
+meta {
+  name: health
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/actuator/health
+  body: none
+  auth: inherit
+}

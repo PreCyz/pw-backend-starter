@@ -1,0 +1,16 @@
+meta {
+  name: REACT-BACKEND
+}
+
+auth {
+  mode: none
+}
+
+script:pre-request {
+  // pm.request.headers.add(
+      {
+          "key" : "security-header",
+          "value" : "secureMe"
+      }
+  );
+}

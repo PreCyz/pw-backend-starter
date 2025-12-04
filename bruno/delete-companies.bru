@@ -1,0 +1,23 @@
+meta {
+  name: delete-companies
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/companies/1
+  body: json
+  auth: inherit
+}
+
+headers {
+  security-header: secureMe
+}
+
+body:json {
+  [{
+      "name" : "TestNameAla2",
+      "startDateTime" : "2020-09-08T20:43:13",
+      "boardMembers" : 1
+  }]
+}

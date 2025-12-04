@@ -1,0 +1,19 @@
+meta {
+  name: create-users
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "username" : "pawg",
+      "password" : "pw2021",
+      "email" : "test@test.pl"
+  }
+}

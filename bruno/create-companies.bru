@@ -1,0 +1,23 @@
+meta {
+  name: create-companies
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/companies
+  body: json
+  auth: inherit
+}
+
+headers {
+  security-header: secureMe
+}
+
+body:json {
+  [{
+      "name" : "TestNameAla2",
+      "startDateTime" : "2020-09-08T20:43:13",
+      "boardMembers" : 1
+  }]
+}

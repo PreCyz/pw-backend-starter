@@ -1,0 +1,11 @@
+meta {
+  name: actuator-profiles
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/actuator/env/spring.profiles.active
+  body: none
+  auth: inherit
+}

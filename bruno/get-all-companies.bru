@@ -1,0 +1,11 @@
+meta {
+  name: get-all-companies
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/companies
+  body: none
+  auth: inherit
+}
