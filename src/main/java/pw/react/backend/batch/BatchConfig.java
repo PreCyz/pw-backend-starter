@@ -1,13 +1,13 @@
 package pw.react.backend.batch;
 
+import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import pw.react.backend.dao.CompanyRepository;
 import pw.react.backend.models.Company;
 import pw.react.backend.services.CompanyService;
-
-import javax.sql.DataSource;
 
 @Profile({"batch", "*mysql*"})
 public class BatchConfig {
@@ -16,6 +16,11 @@ public class BatchConfig {
 
     public BatchConfig(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    @Bean
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
+        return new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Bean
@@ -28,8 +33,8 @@ public class BatchConfig {
     }
 
     @Bean
-    public BatchRepository<Company> companyBatchRepository(JdbcTemplate jdbcTemplate) {
-        return new CompanyBatchRepository(jdbcTemplate);
+    public BatchRepository<Company> companyBatchRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        return new CompanyBatchRepository(jdbcTemplate, namedParameterJdbcTemplate);
     }
 
 }
