@@ -1,16 +1,23 @@
-#FROM openjdk:17-jdk-alpine
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:25-jdk-alpine AS builder
+WORKDIR /builder
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+RUN java -Djarmode=tools -jar app.jar extract --layers --destination app
 
+
+FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app
+COPY --from=builder builder/app/dependencies/ ./
+COPY --from=builder builder/app/snapshot-dependencies/ ./
+COPY --from=builder builder/app/spring-boot-loader/ ./
+COPY --from=builder builder/app/application/ ./
 
-COPY *backend*.jar /app/app.jar
-COPY start.sh /app/start.sh
+ENV SERVER_PORT=8080
+ENV MANAGEMENT_SERVER_PORT=8070
+ENV SERVER_SERVLET_CONTEXT_PATH="/"
+ENV	SPRING_PROFILES_ACTIVE=mysql,batch
+ENV	MYSQL_HOSTNAME=host.docker.internal
 
-RUN addgroup -S spring && adduser -S spring -G spring
-RUN chown -R spring:spring /app
-RUN chmod 755 /app
-USER spring:spring
+EXPOSE 8080 8070
 
-EXPOSE 8080
-
-ENTRYPOINT ["sh","/app/start.sh"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

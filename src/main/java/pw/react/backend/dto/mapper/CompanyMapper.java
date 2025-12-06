@@ -5,6 +5,7 @@ import pw.react.backend.domain.Company;
 import pw.react.backend.dto.request.CreateCompanyRequest;
 import pw.react.backend.dto.request.UpdateCompanyRequest;
 import pw.react.backend.dto.response.CompanyResponse;
+import pw.react.backend.dto.response.GetCompanyResponse;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface CompanyMapper {
     List<CompanyResponse> companyToResponseList(List<Company> company);
 
     Company updateRequestToCompany(UpdateCompanyRequest updateCompanyRequest);
+
+    @Mapping(target = "startDate", source = "company.startDateTime")
+    GetCompanyResponse companyToGetCompanyResponse(Company company);
+    List<GetCompanyResponse> companyToGetCompanyResponseList(List<Company> company);
 }

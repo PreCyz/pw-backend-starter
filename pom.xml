@@ -109,6 +109,9 @@
 						<profile>mysql</profile>
 						<profile>batch</profile>
 					</profiles>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
 				</configuration>
 			</plugin>
             <plugin>

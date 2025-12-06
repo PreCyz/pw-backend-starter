@@ -1,7 +1,7 @@
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/backend?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${mysql.hostname:localhost}:3306/backend?createDatabaseIfNotExist=true&sslMode=PREFERRED&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: react
     password: MysqL12!@
     type: com.zaxxer.hikari.HikariDataSource

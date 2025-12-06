@@ -19,8 +19,7 @@ import pw.react.backend.domain.CompanyLogo;
 import pw.react.backend.dto.mapper.CompanyMapper;
 import pw.react.backend.dto.request.CreateCompanyRequest;
 import pw.react.backend.dto.request.UpdateCompanyRequest;
-import pw.react.backend.dto.response.CompanyResponse;
-import pw.react.backend.dto.response.UploadFileResponse;
+import pw.react.backend.dto.response.*;
 import pw.react.backend.exceptions.ResourceNotFoundException;
 import pw.react.backend.services.CompanyLogoService;
 import pw.react.backend.services.CompanyService;
@@ -63,23 +62,23 @@ public class CompanyController {
     }
 
     @GetMapping(path = "/{companyId}")
-    public ResponseEntity<CompanyResponse> getCompany(@RequestHeader HttpHeaders headers, @PathVariable Long companyId) {
+    public ResponseEntity<GetCompanyResponse> getCompany(@RequestHeader HttpHeaders headers, @PathVariable Long companyId) {
         logHeaders(headers);
-        CompanyResponse result = companyService.getById(companyId)
-                .map(companyMapper::companyToResponse)
+        GetCompanyResponse result = companyService.getById(companyId)
+                .map(companyMapper::companyToGetCompanyResponse)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Company with %d does not exist", companyId)));
         return ResponseEntity.ok(result);
     }
 
     @GetMapping
-    public ResponseEntity<List<CompanyResponse>> getAllCompanies(@RequestHeader HttpHeaders headers,
+    public ResponseEntity<List<GetCompanyResponse>> getAllCompanies(@RequestHeader HttpHeaders headers,
                                                                  @RequestParam(required = false) Integer page,
                                                                  @RequestParam(required = false) Integer size) {
         logHeaders(headers);
         if (page == null || size == null) {
-            return ResponseEntity.ok(companyMapper.companyToResponseList(companyService.getAll()));
+            return ResponseEntity.ok(companyMapper.companyToGetCompanyResponseList(companyService.getAll()));
         }
-        return ResponseEntity.ok(companyMapper.companyToResponseList(companyService.getCompaniesPage(page, size)));
+        return ResponseEntity.ok(companyMapper.companyToGetCompanyResponseList(companyService.getCompaniesPage(page, size)));
     }
 
     @PutMapping(path = "/{companyId}")

@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Profiles: mysql,batch" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="mysql,batch" />
+    <module name="pw-backend-starter" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="pw.react.backend.BackendApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
