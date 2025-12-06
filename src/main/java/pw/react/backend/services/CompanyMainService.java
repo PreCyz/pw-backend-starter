@@ -2,6 +2,7 @@ package pw.react.backend.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import pw.react.backend.dao.CompanyRepository;
 import pw.react.backend.domain.Company;
 import pw.react.backend.exceptions.ResourceNotFoundException;
@@ -54,5 +55,11 @@ public class CompanyMainService implements CompanyService {
     @Override
     public List<Company> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<Company> getCompaniesPage(int pageNumber, int pageSize) {
+        int defaultPageSize = 10;
+        return repository.findAll(PageRequest.of(pageNumber, pageSize == 0 ? defaultPageSize : pageSize)).getContent();
     }
 }

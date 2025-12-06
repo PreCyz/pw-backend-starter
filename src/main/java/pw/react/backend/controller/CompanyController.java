@@ -75,10 +75,15 @@ public class CompanyController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping(path = "")
-    public ResponseEntity<List<CompanyResponse>> getAllCompanies(@RequestHeader HttpHeaders headers) {
+    @GetMapping
+    public ResponseEntity<List<CompanyResponse>> getAllCompanies(@RequestHeader HttpHeaders headers,
+                                                                 @RequestParam Integer page,
+                                                                 @RequestParam Integer size) {
         logHeaders(headers);
-        return ResponseEntity.ok(companyMapper.companyToResponseList(companyService.getAll()));
+        if (page == null || size == null) {
+            return ResponseEntity.ok(companyMapper.companyToResponseList(companyService.getAll()));
+        }
+        return ResponseEntity.ok(companyMapper.companyToResponseList(companyService.getCompaniesPage(page, size)));
     }
 
     @PutMapping(path = "/{companyId}")

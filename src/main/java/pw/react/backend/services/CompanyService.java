@@ -12,4 +12,5 @@ public interface CompanyService {
     List<Company> batchSave(List<Company> companies);
     Optional<Company> getById(long companyId);
     List<Company> getAll();
+    List<Company> getCompaniesPage(int page, int size);
 }
