@@ -1,4 +1,4 @@
-package pw.react.backend.services;
+package pw.react.backend.config;
 
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pw.react.backend.batch.BatchConfig;
 import pw.react.backend.dao.CompanyLogoRepository;
-import pw.react.backend.openapi.OpenApiConfig;
+import pw.react.backend.services.*;
 
 import javax.sql.DataSource;
 import java.util.*;

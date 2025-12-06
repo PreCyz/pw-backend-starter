@@ -5,13 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import pw.react.backend.dao.CompanyLogoRepository;
+import pw.react.backend.domain.CompanyLogo;
 import pw.react.backend.exceptions.InvalidFileException;
 import pw.react.backend.exceptions.ResourceNotFoundException;
-import pw.react.backend.models.CompanyLogo;
 
 import java.io.IOException;
 
-class CompanyLogoService implements LogoService {
+public class CompanyLogoService implements LogoService {
 
     private final Logger logger = LoggerFactory.getLogger(CompanyLogoService.class);
 

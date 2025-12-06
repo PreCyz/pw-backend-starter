@@ -3,11 +3,11 @@ package pw.react.backend.batch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pw.react.backend.dao.CompanyRepository;
-import pw.react.backend.models.Company;
+import pw.react.backend.domain.Company;
 import pw.react.backend.services.CompanyMainService;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 class CompanyBatchService extends CompanyMainService {
     private final Logger logger = LoggerFactory.getLogger(CompanyBatchService.class);
@@ -20,7 +20,7 @@ class CompanyBatchService extends CompanyMainService {
     }
 
     @Override
-    public Collection<Company> batchSave(Collection<Company> companies) {
+    public List<Company> batchSave(List<Company> companies) {
         logger.info("Batch insert.");
         if (companies != null && !companies.isEmpty()) {
             return batchRepository.insertAll(companies);

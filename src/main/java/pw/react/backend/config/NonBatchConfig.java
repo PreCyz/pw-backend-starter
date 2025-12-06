@@ -1,8 +1,10 @@
-package pw.react.backend.services;
+package pw.react.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import pw.react.backend.dao.CompanyRepository;
+import pw.react.backend.services.CompanyMainService;
+import pw.react.backend.services.CompanyService;
 
 @Profile("!batch")
 public class NonBatchConfig {

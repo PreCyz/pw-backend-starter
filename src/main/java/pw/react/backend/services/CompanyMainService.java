@@ -3,8 +3,8 @@ package pw.react.backend.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pw.react.backend.dao.CompanyRepository;
+import pw.react.backend.domain.Company;
 import pw.react.backend.exceptions.ResourceNotFoundException;
-import pw.react.backend.models.Company;
 
 import java.util.*;
 
@@ -13,7 +13,7 @@ public class CompanyMainService implements CompanyService {
 
     private final CompanyRepository repository;
 
-    protected CompanyMainService(CompanyRepository repository) {
+    public CompanyMainService(CompanyRepository repository) {
         this.repository = repository;
     }
 
@@ -40,7 +40,7 @@ public class CompanyMainService implements CompanyService {
     }
 
     @Override
-    public Collection<Company> batchSave(Collection<Company> companies) {
+    public List<Company> batchSave(List<Company> companies) {
         if (companies != null && !companies.isEmpty()) {
             return repository.saveAll(companies);
         } else {
@@ -55,7 +55,7 @@ public class CompanyMainService implements CompanyService {
     }
 
     @Override
-    public Collection<Company> getAll() {
+    public List<Company> getAll() {
         return repository.findAll();
     }
 }

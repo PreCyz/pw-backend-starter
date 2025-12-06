@@ -1,4 +1,4 @@
-package pw.react.backend.models;
+package pw.react.backend.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

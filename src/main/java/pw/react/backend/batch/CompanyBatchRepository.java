@@ -1,28 +1,17 @@
 package pw.react.backend.batch;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
+import org.springframework.jdbc.core.*;
+import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
-import pw.react.backend.models.Company;
+import pw.react.backend.domain.Company;
+
+import java.sql.*;
+import java.time.*;
+import java.util.*;
 
 class CompanyBatchRepository implements BatchRepository<Company> {
     private final static Logger logger = LoggerFactory.getLogger(CompanyBatchRepository.class);
@@ -36,7 +25,7 @@ class CompanyBatchRepository implements BatchRepository<Company> {
 
     @Override
     @Transactional
-    public Collection<Company> insertAll(Collection<Company> entities) {
+    public List<Company> insertAll(List<Company> entities) {
         String sql = "INSERT INTO `COMPANY` (NAME, BOARD_MEMBERS, START_DATE) VALUES(?,?,?)";
 
         for (Company company : entities) {

@@ -14,13 +14,15 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pw.react.backend.domain.Company;
+import pw.react.backend.domain.CompanyLogo;
+import pw.react.backend.dto.inbound.CompanyRequest;
+import pw.react.backend.dto.mapper.CompanyMapper;
+import pw.react.backend.dto.outbound.CompanyResponse;
+import pw.react.backend.dto.outbound.UploadFileResponse;
 import pw.react.backend.exceptions.ResourceNotFoundException;
-import pw.react.backend.models.Company;
-import pw.react.backend.models.CompanyLogo;
 import pw.react.backend.services.CompanyService;
 import pw.react.backend.services.LogoService;
-import pw.react.backend.web.CompanyDto;
-import pw.react.backend.web.UploadFileResponse;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -28,7 +30,6 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping(path = CompanyController.COMPANIES_PATH)
@@ -39,10 +40,12 @@ public class CompanyController {
     public static final String COMPANIES_PATH = "/companies";
 
     private final CompanyService companyService;
+    private final CompanyMapper companyMapper;
     private LogoService companyLogoService;
 
-    public CompanyController(CompanyService companyService) {
+    public CompanyController(CompanyService companyService, CompanyMapper companyMapper) {
         this.companyService = companyService;
+        this.companyMapper = companyMapper;
     }
 
     @Autowired
@@ -51,14 +54,11 @@ public class CompanyController {
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<Collection<CompanyDto>> createCompanies(@RequestHeader HttpHeaders headers,
-                                                                  @Valid @RequestBody List<CompanyDto> companies) {
+    public ResponseEntity<Collection<CompanyResponse>> createCompanies(@RequestHeader HttpHeaders headers,
+                                                                       @Valid @RequestBody List<CompanyRequest> companies) {
         logHeaders(headers);
-        List<Company> createdCompanies = companies.stream().map(CompanyDto::convertToCompany).collect(toList());
-        List<CompanyDto> result = companyService.batchSave(createdCompanies)
-                .stream()
-                .map(CompanyDto::valueFrom)
-                .toList();
+        List<Company> createdCompanies = companyMapper.requestsToCompanyList(companies);
+        List<CompanyResponse> result = companyMapper.companyToResponseList(new ArrayList<>(companyService.batchSave(createdCompanies)));
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -72,26 +72,26 @@ public class CompanyController {
     }
 
     @GetMapping(path = "/{companyId}")
-    public ResponseEntity<CompanyDto> getCompany(@RequestHeader HttpHeaders headers, @PathVariable Long companyId) {
+    public ResponseEntity<CompanyResponse> getCompany(@RequestHeader HttpHeaders headers, @PathVariable Long companyId) {
         logHeaders(headers);
-        CompanyDto result = companyService.getById(companyId)
-                .map(CompanyDto::valueFrom)
+        CompanyResponse result = companyService.getById(companyId)
+                .map(companyMapper::companyToResponse)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Company with %d does not exist", companyId)));
         return ResponseEntity.ok(result);
     }
 
     @GetMapping(path = "")
-    public ResponseEntity<Collection<CompanyDto>> getAllCompanies(@RequestHeader HttpHeaders headers) {
+    public ResponseEntity<List<CompanyResponse>> getAllCompanies(@RequestHeader HttpHeaders headers) {
         logHeaders(headers);
-        return ResponseEntity.ok(companyService.getAll().stream().map(CompanyDto::valueFrom).toList());
+        return ResponseEntity.ok(companyMapper.companyToResponseList(companyService.getAll()));
     }
 
     @PutMapping(path = "/{companyId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateCompany(@RequestHeader HttpHeaders headers, @PathVariable Long companyId,
-                              @Valid @RequestBody CompanyDto updatedCompany) {
+                              @Valid @RequestBody CompanyRequest updatedCompany) {
         logHeaders(headers);
-        companyService.updateCompany(companyId, CompanyDto.convertToCompany(updatedCompany));
+        companyService.updateCompany(companyId, companyMapper.requestToCompany(updatedCompany));
     }
 
     @DeleteMapping(path = "/{companyId}")

@@ -1,7 +1,7 @@
 package pw.react.backend.batch;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface BatchRepository<T> {
-    Collection<T> insertAll(Collection<T> entities);
+    List<T> insertAll(List<T> entities);
 }
