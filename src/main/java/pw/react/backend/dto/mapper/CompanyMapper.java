@@ -2,9 +2,9 @@ package pw.react.backend.dto.mapper;
 
 import org.mapstruct.*;
 import pw.react.backend.domain.Company;
-import pw.react.backend.dto.inbound.CreateCompanyRequest;
-import pw.react.backend.dto.inbound.UpdateCompanyRequest;
-import pw.react.backend.dto.outbound.CompanyResponse;
+import pw.react.backend.dto.request.CreateCompanyRequest;
+import pw.react.backend.dto.request.UpdateCompanyRequest;
+import pw.react.backend.dto.response.CompanyResponse;
 
 import java.util.List;
 

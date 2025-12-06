@@ -8,9 +8,9 @@ import org.springframework.context.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import pw.react.backend.batch.BatchConfig;
-import pw.react.backend.dao.CompanyLogoRepository;
-import pw.react.backend.services.*;
+import pw.react.backend.repositories.CompanyLogoRepository;
+import pw.react.backend.services.CompanyLogoService;
+import pw.react.backend.services.HttpService;
 
 import javax.sql.DataSource;
 import java.util.*;
@@ -50,11 +50,11 @@ public class MainConfig {
 
     @Bean
     public HttpService httpService(RestTemplate restTemplate) {
-        return new HttpBaseService(restTemplate);
+        return new HttpService(restTemplate);
     }
 
     @Bean
-    public LogoService logoService(CompanyLogoRepository companyLogoRepository) {
+    public CompanyLogoService logoService(CompanyLogoRepository companyLogoRepository) {
         return new CompanyLogoService(companyLogoRepository);
     }
 

@@ -3,15 +3,15 @@ package pw.react.backend.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import pw.react.backend.dao.CompanyLogoRepository;
 import pw.react.backend.domain.CompanyLogo;
 import pw.react.backend.exceptions.InvalidFileException;
 import pw.react.backend.exceptions.ResourceNotFoundException;
+import pw.react.backend.repositories.CompanyLogoRepository;
 
 import java.io.IOException;
 
 @Slf4j
-public class CompanyLogoService implements LogoService {
+public class CompanyLogoService {
 
     private final CompanyLogoRepository repository;
 
@@ -19,7 +19,6 @@ public class CompanyLogoService implements LogoService {
         this.repository = repository;
     }
 
-    @Override
     public CompanyLogo storeLogo(long companyId, MultipartFile file) {
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -38,13 +37,11 @@ public class CompanyLogoService implements LogoService {
         }
     }
 
-    @Override
     public CompanyLogo getCompanyLogo(long companyId) {
         return repository.findByCompanyId(companyId)
                 .orElseThrow(() -> new ResourceNotFoundException("File not found with companyId " + companyId));
     }
 
-    @Override
     public void deleteCompanyLogo(long companyId) {
         repository.deleteByCompanyId(companyId);
         log.info("Logo for the company with id {} deleted.", companyId);

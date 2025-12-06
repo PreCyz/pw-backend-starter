@@ -3,9 +3,9 @@ package pw.react.backend.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import pw.react.backend.dao.CompanyRepository;
 import pw.react.backend.domain.Company;
 import pw.react.backend.exceptions.ResourceNotFoundException;
+import pw.react.backend.repositories.CompanyRepository;
 
 import java.util.*;
 

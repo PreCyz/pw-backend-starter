@@ -1,4 +1,4 @@
-package pw.react.backend.batch;
+package pw.react.backend.repositories;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

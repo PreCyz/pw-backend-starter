@@ -1,4 +1,4 @@
-package pw.react.backend.dto.outbound;
+package pw.react.backend.dto.response;
 
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package pw.react.backend.dto.inbound;
+package pw.react.backend.dto.request;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

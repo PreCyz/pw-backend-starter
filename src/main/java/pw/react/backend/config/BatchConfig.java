@@ -1,23 +1,22 @@
-package pw.react.backend.batch;
+package pw.react.backend.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import pw.react.backend.dao.CompanyRepository;
 import pw.react.backend.domain.Company;
+import pw.react.backend.repositories.*;
+import pw.react.backend.services.CompanyBatchService;
 import pw.react.backend.services.CompanyService;
 
 import javax.sql.DataSource;
 
 @Profile({"batch", "*mysql*"})
+@RequiredArgsConstructor
 public class BatchConfig {
 
     private final DataSource dataSource;
-
-    public BatchConfig(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
     @Bean
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate() {

@@ -1,4 +1,4 @@
-package pw.react.backend.batch;
+package pw.react.backend.repositories;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
-import pw.react.backend.dto.inbound.CreateCompanyRequest;
+import pw.react.backend.dto.request.CreateCompanyRequest;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest
 @ActiveProfiles({"it"})
 @Disabled
-class HttpBaseServiceTest {
+class HttpServiceTest {
     @Autowired
     private RestTemplate restTemplate;
     @Value("${azure.backend.url}")

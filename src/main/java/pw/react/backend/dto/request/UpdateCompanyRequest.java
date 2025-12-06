@@ -1,4 +1,4 @@
-package pw.react.backend.dto.inbound;
+package pw.react.backend.dto.request;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

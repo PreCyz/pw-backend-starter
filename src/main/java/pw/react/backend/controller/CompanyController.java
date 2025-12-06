@@ -16,14 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pw.react.backend.domain.Company;
 import pw.react.backend.domain.CompanyLogo;
-import pw.react.backend.dto.inbound.CreateCompanyRequest;
-import pw.react.backend.dto.inbound.UpdateCompanyRequest;
 import pw.react.backend.dto.mapper.CompanyMapper;
-import pw.react.backend.dto.outbound.CompanyResponse;
-import pw.react.backend.dto.outbound.UploadFileResponse;
+import pw.react.backend.dto.request.CreateCompanyRequest;
+import pw.react.backend.dto.request.UpdateCompanyRequest;
+import pw.react.backend.dto.response.CompanyResponse;
+import pw.react.backend.dto.response.UploadFileResponse;
 import pw.react.backend.exceptions.ResourceNotFoundException;
+import pw.react.backend.services.CompanyLogoService;
 import pw.react.backend.services.CompanyService;
-import pw.react.backend.services.LogoService;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -42,10 +42,10 @@ public class CompanyController {
 
     private final CompanyService companyService;
     private final CompanyMapper companyMapper;
-    private LogoService companyLogoService;
+    private CompanyLogoService companyLogoService;
 
     @Autowired
-    public void setCompanyLogoService(LogoService companyLogoService) {
+    public void setCompanyLogoService(CompanyLogoService companyLogoService) {
         this.companyLogoService = companyLogoService;
     }
 
