@@ -1,8 +1,7 @@
 package pw.react.backend.config;
 
 import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.*;
@@ -22,9 +21,9 @@ import static java.util.stream.Collectors.toSet;
 @Import({
         NonBatchConfig.class, BatchConfig.class, OpenApiConfig.class
 })
+@Slf4j
 public class MainConfig {
 
-    private static final Logger log = LoggerFactory.getLogger(MainConfig.class);
     private static final Map<String, String> envPropertiesMap = System.getenv();
 
     private final String corsUrls;

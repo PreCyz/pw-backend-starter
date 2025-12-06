@@ -5,8 +5,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -33,20 +33,15 @@ import static java.util.stream.Collectors.joining;
 
 @RestController
 @RequestMapping(path = CompanyController.COMPANIES_PATH)
+@Slf4j
+@RequiredArgsConstructor
 public class CompanyController {
-
-    private static final Logger log = LoggerFactory.getLogger(CompanyController.class);
 
     public static final String COMPANIES_PATH = "/companies";
 
     private final CompanyService companyService;
     private final CompanyMapper companyMapper;
     private LogoService companyLogoService;
-
-    public CompanyController(CompanyService companyService, CompanyMapper companyMapper) {
-        this.companyService = companyService;
-        this.companyMapper = companyMapper;
-    }
 
     @Autowired
     public void setCompanyLogoService(LogoService companyLogoService) {

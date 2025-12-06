@@ -17,5 +17,4 @@ public class CompanyResponse {
     @JsonDeserialize(using = JsonDateDeserializer.class)
     @JsonSerialize(using = JsonDateSerializer.class)
     private LocalDateTime startDateTime;
-
 }

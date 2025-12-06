@@ -1,7 +1,7 @@
 package pw.react.backend.batch;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.*;
 import org.springframework.jdbc.core.namedparam.*;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -13,15 +13,11 @@ import java.sql.*;
 import java.time.*;
 import java.util.*;
 
-class CompanyBatchRepository implements BatchRepository<Company> {
-    private final static Logger logger = LoggerFactory.getLogger(CompanyBatchRepository.class);
+@Slf4j
+@RequiredArgsConstructor
+public class CompanyBatchRepository implements BatchRepository<Company> {
     private final JdbcTemplate jdbcTemplate;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    CompanyBatchRepository(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-    }
 
     @Override
     @Transactional
@@ -82,7 +78,7 @@ class CompanyBatchRepository implements BatchRepository<Company> {
 
         setIdsFromKeyHolder(keyHolder, cpyCompanies);
 
-        logger.info("{} companies inserted", companies.stream().map(Company::getId).toList());
+        log.info("{} companies inserted", companies.stream().map(Company::getId).toList());
         return companies;
     }
 

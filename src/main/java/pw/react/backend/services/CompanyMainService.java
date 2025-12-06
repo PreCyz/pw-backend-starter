@@ -1,28 +1,25 @@
 package pw.react.backend.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import pw.react.backend.dao.CompanyRepository;
 import pw.react.backend.domain.Company;
 import pw.react.backend.exceptions.ResourceNotFoundException;
 
 import java.util.*;
 
+@Slf4j
+@RequiredArgsConstructor
 public class CompanyMainService implements CompanyService {
-    private final Logger logger = LoggerFactory.getLogger(CompanyMainService.class);
 
     private final CompanyRepository repository;
-
-    public CompanyMainService(CompanyRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Company updateCompany(Long id, Company updatedCompany) throws ResourceNotFoundException {
         if (repository.existsById(id)) {
             updatedCompany.setId(id);
             Company result = repository.save(updatedCompany);
-            logger.info("Company with id {} updated.", id);
+            log.info("Company with id {} updated.", id);
             return result;
         }
         throw new ResourceNotFoundException(String.format("Company with id [%d] not found.", id));
@@ -33,7 +30,7 @@ public class CompanyMainService implements CompanyService {
         boolean result = false;
         if (repository.existsById(companyId)) {
             repository.deleteById(companyId);
-            logger.info("Company with id {} deleted.", companyId);
+            log.info("Company with id {} deleted.", companyId);
             result = true;
         }
         return result;
@@ -44,7 +41,7 @@ public class CompanyMainService implements CompanyService {
         if (companies != null && !companies.isEmpty()) {
             return repository.saveAll(companies);
         } else {
-            logger.warn("Companies collection is empty or null.");
+            log.warn("Companies collection is empty or null.");
             return Collections.emptyList();
         }
     }

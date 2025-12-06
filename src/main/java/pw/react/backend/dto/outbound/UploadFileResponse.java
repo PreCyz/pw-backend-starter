@@ -1,3 +1,13 @@
 package pw.react.backend.dto.outbound;
 
-public record UploadFileResponse(String fileName, String fileDownloadUri, String fileType, long size) { }
+import lombok.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
+public class UploadFileResponse {
+    private String fileName;
+    private String fileDownloadUri;
+    private String fileType;
+    private long size;
+}

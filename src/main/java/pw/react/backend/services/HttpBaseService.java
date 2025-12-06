@@ -1,12 +1,10 @@
 package pw.react.backend.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 public class HttpBaseService implements HttpService {
-
-    private final Logger logger = LoggerFactory.getLogger(HttpBaseService.class);
 
     private final RestTemplate restTemplate;
 
@@ -18,9 +16,9 @@ public class HttpBaseService implements HttpService {
     public Object consume(String url) {
         final Object object = restTemplate.getForObject(url, String.class);
         if (object != null) {
-            logger.info("This is Quote: {}", object);
+            log.info("This is Quote: {}", object);
         } else {
-            logger.warn("Quote is null");
+            log.warn("Quote is null");
         }
         return object;
     }

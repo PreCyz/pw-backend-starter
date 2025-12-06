@@ -1,0 +1,11 @@
+meta {
+  name: get-company-by-id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/companies/2
+  body: none
+  auth: inherit
+}
