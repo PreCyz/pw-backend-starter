@@ -77,8 +77,8 @@ public class CompanyController {
 
     @GetMapping
     public ResponseEntity<List<CompanyResponse>> getAllCompanies(@RequestHeader HttpHeaders headers,
-                                                                 @RequestParam Integer page,
-                                                                 @RequestParam Integer size) {
+                                                                 @RequestParam(required = false) Integer page,
+                                                                 @RequestParam(required = false) Integer size) {
         logHeaders(headers);
         if (page == null || size == null) {
             return ResponseEntity.ok(companyMapper.companyToResponseList(companyService.getAll()));
