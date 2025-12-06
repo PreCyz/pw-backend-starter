@@ -45,9 +45,9 @@ public class ControllerExceptionHandler {
     public ResponseEntity<ExceptionDetails> genericException(Exception ex, ServletWebRequest request) {
         log.error("Generic Exception: {}", ex.getMessage());
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(new ExceptionDetails(
-                        HttpStatus.BAD_REQUEST,
+                        HttpStatus.UNPROCESSABLE_ENTITY,
                         ex.getMessage(),
                         request.getRequest().getServletPath())
                 );

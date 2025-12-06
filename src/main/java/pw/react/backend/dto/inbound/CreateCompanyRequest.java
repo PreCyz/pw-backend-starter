@@ -12,9 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class CompanyRequest {
-
-    private long id;
+public class CreateCompanyRequest {
 
     @NotBlank(message = "Name is mandatory")
     private String name;

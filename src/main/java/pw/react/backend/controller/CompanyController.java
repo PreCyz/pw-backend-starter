@@ -16,7 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pw.react.backend.domain.Company;
 import pw.react.backend.domain.CompanyLogo;
-import pw.react.backend.dto.inbound.CompanyRequest;
+import pw.react.backend.dto.inbound.CreateCompanyRequest;
+import pw.react.backend.dto.inbound.UpdateCompanyRequest;
 import pw.react.backend.dto.mapper.CompanyMapper;
 import pw.react.backend.dto.outbound.CompanyResponse;
 import pw.react.backend.dto.outbound.UploadFileResponse;
@@ -50,10 +51,10 @@ public class CompanyController {
 
     @PostMapping(path = "")
     public ResponseEntity<Collection<CompanyResponse>> createCompanies(@RequestHeader HttpHeaders headers,
-                                                                       @Valid @RequestBody List<CompanyRequest> companies) {
+                                                                       @Valid @RequestBody List<CreateCompanyRequest> companies) {
         logHeaders(headers);
-        List<Company> createdCompanies = companyMapper.requestsToCompanyList(companies);
-        List<CompanyResponse> result = companyMapper.companyToResponseList(new ArrayList<>(companyService.batchSave(createdCompanies)));
+        List<Company> createdCompanies = companyMapper.createRequestToCompanyList(companies);
+        List<CompanyResponse> result = companyMapper.companyToResponseList(companyService.batchSave(createdCompanies));
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -89,9 +90,9 @@ public class CompanyController {
     @PutMapping(path = "/{companyId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateCompany(@RequestHeader HttpHeaders headers, @PathVariable Long companyId,
-                              @Valid @RequestBody CompanyRequest updatedCompany) {
+                              @Valid @RequestBody UpdateCompanyRequest updatedCompany) {
         logHeaders(headers);
-        companyService.updateCompany(companyId, companyMapper.requestToCompany(updatedCompany));
+        companyService.updateCompany(companyId, companyMapper.updateRequestToCompany(updatedCompany));
     }
 
     @DeleteMapping(path = "/{companyId}")

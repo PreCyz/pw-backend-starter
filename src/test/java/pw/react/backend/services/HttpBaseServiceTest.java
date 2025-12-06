@@ -9,7 +9,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
-import pw.react.backend.dto.inbound.CompanyRequest;
+import pw.react.backend.dto.inbound.CreateCompanyRequest;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ class HttpBaseServiceTest {
     void givenUserNameAndPassword_whenLogin_thenReceiveToken() {
         HttpHeaders headers = new HttpHeaders();
 
-        final ResponseEntity<List<CompanyRequest>> response3 = restTemplate.exchange(
+        final ResponseEntity<List<CreateCompanyRequest>> response3 = restTemplate.exchange(
                 azureUrl + "/companies",
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
