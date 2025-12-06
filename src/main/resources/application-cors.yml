@@ -1,0 +1,8 @@
+management:
+  endpoints:
+    web:
+      cors:
+        allowed-origins: ${cors_origins:http://localhost:8080,http://localhost:5000}
+        allowed-headers: ${cors_headers:*}
+        allowed-methods: ${cors_methods:*}
+        allowed-origin-patterns: ${cors_origin_patterns:/**}

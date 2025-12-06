@@ -1,0 +1,65 @@
+azure:
+  backend:
+    url: https://pw2024.azurewebsites.net
+
+
+spring:
+  servlet:
+    multipart:
+      ## MULTIPART (MultipartProperties)
+      enabled:
+      # Threshold after which files are written to disk.
+      file-size-threshold: 2KB
+      # Max file size.
+      max-file-size: 200MB
+      # Max Request Size
+      max-request-size: 215MB
+
+# Actuator
+management:
+  endpoints:
+    access:
+      default: none
+    web:
+      exposure:
+        include: health,loggers,beans,env,shutdown,startup,threaddump,heapdump
+  endpoint:
+    health:
+      access: read_only
+    loggers:
+      access: read_only
+    beans:
+      access: read_only
+    shutdown:
+      access: read_only
+    startup:
+      access: read_only
+    threaddump:
+      access: read_only
+    heapdump:
+      access: read_only
+# http://localhost:8080/actuator/env/spring.profiles.active
+    env:
+      access: read_only
+
+
+# Loggers
+logging:
+  level:
+    root: INFO
+    pw.react.backend: INFO
+    org.springframework.boot.autoconfigure: ERROR
+
+# CORS
+cors:
+  urls: ${cors:http://localhost:8080,http://localhost:5000}
+  mappings: /**
+
+# spring-doc
+application:
+  springdoc:
+    title: Backend PW API
+    description: Backend starter for PW project.
+    version: @project.version@
+springdoc:
+  show-actuator: true
