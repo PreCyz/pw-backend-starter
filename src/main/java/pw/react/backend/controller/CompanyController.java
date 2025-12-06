@@ -35,19 +35,14 @@ import static java.util.stream.Collectors.joining;
 @RestController
 @RequestMapping(path = CompanyController.COMPANIES_PATH)
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class CompanyController {
 
     public static final String COMPANIES_PATH = "/companies";
 
     private final CompanyService companyService;
     private final CompanyMapper companyMapper;
-    private CompanyLogoService companyLogoService;
-
-    @Autowired
-    public void setCompanyLogoService(CompanyLogoService companyLogoService) {
-        this.companyLogoService = companyLogoService;
-    }
+    private final CompanyLogoService companyLogoService;
 
     @PostMapping(path = "")
     public ResponseEntity<Collection<CompanyResponse>> createCompanies(@RequestHeader HttpHeaders headers,
