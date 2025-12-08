@@ -1,0 +1,29 @@
+name: pw-starter
+services:
+  aotgen:
+    build:
+      context: ..
+      dockerfile: docker/aotgen.Dockerfile
+#      args:
+#        JAR_FILE: pw-backend-starter-1.0.0.jar
+    environment:
+      AOT_DIR: /cache
+    volumes:
+      - ./cache:/cache
+    # run once to produce ./cache/app.aot and exit
+    restart: "no"
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/deploy.Dockerfile
+    environment:
+      AOT_DIR: /cache
+    volumes:
+      - ./cache:/cache
+    depends_on:
+      aotgen:
+        condition: service_completed_successfully
+    ports:
+      - "8080:8080"
+      - "8070:8070"
