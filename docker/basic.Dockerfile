@@ -11,21 +11,29 @@ RUN $JAVA_HOME/bin/jlink \
 
 FROM container-registry.oracle.com/os/oraclelinux:9-slim
 
-ENV JAVA_HOME /usr/java/openjdk-25
-ENV PATH $JAVA_HOME/bin:$PATH
+ENV JAVA_HOME=/usr/java/openjdk-25
+ENV PATH=$JAVA_HOME/bin:$PATH
 
 COPY --from=runtime-build /javaruntime $JAVA_HOME
 
-ARG JAR_FILE=../target/*.jar
+ARG JAR_FILE=target/*.jar
 ENV AOT_DIR=cache
 
 COPY ${JAR_FILE} app.jar
 
+RUN mkdir ${AOT_DIR} && chmod 755 ${AOT_DIR}
+
+ENV SERVER_PORT=8080
+ENV MANAGEMENT_SERVER_PORT=8070
+ENV SERVER_SERVLET_CONTEXT_PATH="/"
+ENV	SPRING_PROFILES_ACTIVE=mysql,batch
+ENV	MYSQL_HOSTNAME=host.docker.internal
+
 # Continue with training run and assembly phase
-RUN mkdir ${AOT_DIR} && chmod 755 ${AOT_DIR} \
-    && java -XX:AOTCacheOutput=${AOT_DIR}/app.aot -Dspring.context.exit=onRefresh -jar app.jar \
-    && groupadd -r appuser && useradd -r -g appuser appuser
+RUN java -XX:AOTCacheOutput=${AOT_DIR}/app.aot -Dspring.context.exit=onRefresh -jar app.jar
+
+RUN groupadd -r appuser && useradd -r -g appuser appuser
 USER appuser
 
 # Deployment run
-CMD java -XX:AOTCache=${AOT_DIR} -jar app.jar
+CMD ["java", "-Xlog:aot", "-XX:AOTCache=/cache/app.aot", "-jar", "app.jar"]

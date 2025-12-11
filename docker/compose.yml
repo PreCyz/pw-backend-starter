@@ -13,7 +13,7 @@ services:
     # run once to produce ./cache/app.aot and exit
     restart: "no"
 
-  backend:
+  aot-cache:
     build:
       context: ..
       dockerfile: docker/deploy.Dockerfile
@@ -27,3 +27,40 @@ services:
     ports:
       - "8080:8080"
       - "8070:8070"
+
+  basic:
+    build:
+      context: ..
+      dockerfile: docker/basic.Dockerfile
+    depends_on:
+      aot-cache:
+        condition: service_started
+    ports:
+      - "8082:8080"
+      - "8072:8070"
+
+  layers:
+    build:
+      context: ..
+      dockerfile: docker/layer.Dockerfile
+    depends_on:
+      basic:
+        condition: service_started
+    ports:
+      - "8081:8080"
+      - "8071:8070"
+
+#  aot-spring:
+#    build:
+#      context: ..
+#      dockerfile: docker/springaot.Dockerfile
+#    environment:
+#      AOT_DIR: /cache
+#    volumes:
+#      - ./cache:/cache
+#    depends_on:
+#      layers:
+#        condition: service_started
+#    ports:
+#      - "8083:8080"
+#      - "8073:8070"

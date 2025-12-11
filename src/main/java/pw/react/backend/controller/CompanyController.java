@@ -54,7 +54,7 @@ public class CompanyController {
 
     private void logHeaders(@RequestHeader HttpHeaders headers) {
         log.info("Controller request headers {}",
-                headers.entrySet()
+                headers.headerSet()
                         .stream()
                         .map(entry -> String.format("%s->[%s]", entry.getKey(), String.join(",", entry.getValue())))
                         .collect(joining(","))

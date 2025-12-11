@@ -5,7 +5,7 @@
         </encoder>
     </appender>
 
-    <appender name="APP-LOGGER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--<appender name="APP-LOGGER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>./logs/app.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <charset>UTF-8</charset>
@@ -25,15 +25,15 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>./logs/spring-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
-    </appender>
+    </appender>-->
 
-    <logger name="pw.react.backend" level="info">
-        <appender-ref ref="APP-LOGGER" />
+    <!--<logger name="pw.react.backend" level="info">
+        <appender-ref ref="CONSOLE" />
     </logger>
 
     <logger name="org.springframework" level="info" >
-        <appender-ref ref="SPRING" />
-    </logger>
+        <appender-ref ref="CONSOLE" />
+    </logger>-->
 
     <root level="info">
         <appender-ref ref="CONSOLE" />

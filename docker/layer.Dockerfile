@@ -12,7 +12,7 @@ RUN $JAVA_HOME/bin/jlink \
 WORKDIR /builder
 # This points to the built jar file in the target folder
 # Adjust this to 'build/libs/*.jar' if you're using Gradle
-ARG JAR_FILE=../target/*.jar
+ARG JAR_FILE=target/*.jar
 # Copy the jar file to the working directory and rename it to application.jar
 COPY ${JAR_FILE} app.jar
 # Extract the jar file using an efficient layout
@@ -20,8 +20,8 @@ RUN $JAVA_HOME/bin/java -Djarmode=tools -jar app.jar extract --layers --destinat
 
 FROM container-registry.oracle.com/os/oraclelinux:9-slim
 
-ENV JAVA_HOME /usr/java/openjdk-25
-ENV PATH $JAVA_HOME/bin:$PATH
+ENV JAVA_HOME=/usr/java/openjdk-25
+ENV PATH=$JAVA_HOME/bin:$PATH
 ENV AOT_DIR=/cache
 
 COPY --from=builder /javaruntime $JAVA_HOME
@@ -35,12 +35,17 @@ COPY --from=builder /builder/extracted/spring-boot-loader/ ./
 COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
 COPY --from=builder /builder/extracted/application/ ./
 
+RUN mkdir ${AOT_DIR} && chmod 755 ${AOT_DIR}
 # Continue with training run and assembly phase
-RUN mkdir ${AOT_DIR} && chmod 755 ${AOT_DIR} \
-    && java -XX:AOTCacheOutput=${AOT_DIR}/app.aot -Dspring.context.exit=onRefresh -jar app.jar \
-    && groupadd -r appuser && useradd -r -g appuser appuser
+ENV SERVER_PORT=8080
+ENV MANAGEMENT_SERVER_PORT=8070
+ENV SERVER_SERVLET_CONTEXT_PATH="/"
+ENV	SPRING_PROFILES_ACTIVE=mysql,batch
+ENV	MYSQL_HOSTNAME=host.docker.internal
+RUN java -XX:AOTCacheOutput=${AOT_DIR}/app.aot -Dspring.context.exit=onRefresh -jar app.jar
 
+RUN groupadd -r appuser && useradd -r -g appuser appuser
 USER appuser
 
 # Deployment run
-CMD java -XX:AOTCache=${AOT_DIR}/app.aot -jar app.jar
+CMD ["java", "-Xlog:aot", "-XX:AOTCache=/cache/app.aot", "-jar", "app.jar"]
