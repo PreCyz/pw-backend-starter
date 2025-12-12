@@ -19,8 +19,7 @@ FROM container-registry.oracle.com/os/oraclelinux:9-slim
 
 ENV JAVA_HOME=/usr/java/openjdk-25
 ENV PATH=$JAVA_HOME/bin:$PATH
-ENV AOT_DIR=/cache
-ENV AOT_CACHE=${AOT_DIR}/app.aot
+ARG AOT_DIR=/cache
 
 COPY --from=builder /javaruntime $JAVA_HOME
 
@@ -39,5 +38,6 @@ ENV MANAGEMENT_SERVER_PORT=8070
 ENV SERVER_SERVLET_CONTEXT_PATH="/"
 ENV	SPRING_PROFILES_ACTIVE=mysql,batch
 ENV	MYSQL_HOSTNAME=host.docker.internal
+ENV AOT_CACHE=${AOT_DIR}/app.aot
 
-CMD ["java", "-Xlog:aot", "-XX:AOTCache=/cache/app.aot", "-jar", "app.jar"]
+CMD ["/bin/sh", "-c", "java -Xlog:aot -XX:AOTCache=\"$AOT_CACHE\" -jar app.jar"]

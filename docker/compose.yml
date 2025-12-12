@@ -4,13 +4,11 @@ services:
     build:
       context: ..
       dockerfile: docker/aotgen.Dockerfile
-#      args:
-#        JAR_FILE: pw-backend-starter-1.0.0.jar
     environment:
       AOT_DIR: /cache
+    user: "root"
     volumes:
       - ./cache:/cache
-    # run once to produce ./cache/app.aot and exit
     restart: "no"
 
   aot-cache:
@@ -32,9 +30,6 @@ services:
     build:
       context: ..
       dockerfile: docker/basic.Dockerfile
-    depends_on:
-      aot-cache:
-        condition: service_started
     ports:
       - "8082:8080"
       - "8072:8070"
@@ -43,17 +38,14 @@ services:
     build:
       context: ..
       dockerfile: docker/layer.Dockerfile
-    depends_on:
-      basic:
-        condition: service_started
     ports:
       - "8081:8080"
       - "8071:8070"
 
-#  aot-spring:
-#    build:
-#      context: ..
-#      dockerfile: docker/springaot.Dockerfile
+  aot-spring:
+    build:
+      context: ..
+      dockerfile: docker/springaot.Dockerfile
 #    environment:
 #      AOT_DIR: /cache
 #    volumes:
@@ -61,6 +53,14 @@ services:
 #    depends_on:
 #      layers:
 #        condition: service_started
-#    ports:
-#      - "8083:8080"
-#      - "8073:8070"
+    ports:
+      - "8083:8080"
+      - "8073:8070"
+
+  plain:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8084:8080"
+      - "8074:8070"

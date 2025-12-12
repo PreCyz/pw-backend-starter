@@ -42,10 +42,11 @@ ENV MANAGEMENT_SERVER_PORT=8070
 ENV SERVER_SERVLET_CONTEXT_PATH="/"
 ENV	SPRING_PROFILES_ACTIVE=mysql,batch
 ENV	MYSQL_HOSTNAME=host.docker.internal
-RUN java -XX:AOTCacheOutput=${AOT_DIR}/app.aot -Dspring.context.exit=onRefresh -jar app.jar
+ENV AOT_CACHE=${AOT_DIR}/app.aot
+RUN java -XX:AOTCacheOutput=$AOT_CACHE -Dspring.context.exit=onRefresh -jar app.jar
 
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 USER appuser
 
 # Deployment run
-CMD ["java", "-Xlog:aot", "-XX:AOTCache=/cache/app.aot", "-jar", "app.jar"]
+CMD ["/bin/sh", "-c", "java -Xlog:aot -XX:AOTCache=\"$AOT_CACHE\" -jar app.jar"]
