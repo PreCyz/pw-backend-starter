@@ -1,0 +1,27 @@
+name: aot
+services:
+  generator:
+    build:
+      context: ..
+      dockerfile: docker/aotgen.Dockerfile
+    environment:
+      AOT_DIR: /cache
+    user: "root"
+    volumes:
+      - ./cache:/cache
+    restart: "no"
+
+  external-cache:
+    build:
+      context: ..
+      dockerfile: docker/deploy.Dockerfile
+    environment:
+      AOT_DIR: /cache
+    volumes:
+      - ./cache:/cache
+    depends_on:
+      generator:
+        condition: service_completed_successfully
+    ports:
+      - "8083:8080"
+      - "8073:8070"

@@ -1,0 +1,35 @@
+name: spring-aot
+services:
+  generator:
+    build:
+      context: ..
+      dockerfile: docker/springaotgen.Dockerfile
+    environment:
+      AOT_DIR: /cache
+    user: "root"
+    volumes:
+      - ./cache:/cache
+    restart: "no"
+
+  external-cache:
+    build:
+      context: ..
+      dockerfile: docker/springaotext.Dockerfile
+    environment:
+      AOT_DIR: /cache
+    volumes:
+      - ./cache:/cache
+    depends_on:
+      generator:
+        condition: service_completed_successfully
+    ports:
+      - "8084:8080"
+      - "8074:8070"
+
+  internal-cache:
+    build:
+      context: ..
+      dockerfile: docker/springaot.Dockerfile
+    ports:
+      - "8085:8080"
+      - "8075:8070"

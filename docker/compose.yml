@@ -1,27 +1,9 @@
-name: pw-starter
+name: internal-cache
 services:
-  aotgen:
+  layers:
     build:
       context: ..
-      dockerfile: docker/aotgen.Dockerfile
-    environment:
-      AOT_DIR: /cache
-    user: "root"
-    volumes:
-      - ./cache:/cache
-    restart: "no"
-
-  aot-cache:
-    build:
-      context: ..
-      dockerfile: docker/deploy.Dockerfile
-    environment:
-      AOT_DIR: /cache
-    volumes:
-      - ./cache:/cache
-    depends_on:
-      aotgen:
-        condition: service_completed_successfully
+      dockerfile: docker/layer.Dockerfile
     ports:
       - "8080:8080"
       - "8070:8070"
@@ -31,36 +13,13 @@ services:
       context: ..
       dockerfile: docker/basic.Dockerfile
     ports:
-      - "8082:8080"
-      - "8072:8070"
-
-  layers:
-    build:
-      context: ..
-      dockerfile: docker/layer.Dockerfile
-    ports:
       - "8081:8080"
       - "8071:8070"
-
-  aot-spring:
-    build:
-      context: ..
-      dockerfile: docker/springaot.Dockerfile
-#    environment:
-#      AOT_DIR: /cache
-#    volumes:
-#      - ./cache:/cache
-#    depends_on:
-#      layers:
-#        condition: service_started
-    ports:
-      - "8083:8080"
-      - "8073:8070"
 
   plain:
     build:
       context: ..
       dockerfile: docker/Dockerfile
     ports:
-      - "8084:8080"
-      - "8074:8070"
+      - "8082:8080"
+      - "8072:8070"
