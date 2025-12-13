@@ -1,10 +1,20 @@
 package pw.react.backend.config;
 
+import static java.util.stream.Collectors.toSet;
+
 import jakarta.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.restclient.RestTemplateBuilder;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -12,14 +22,9 @@ import pw.react.backend.repositories.CompanyLogoRepository;
 import pw.react.backend.services.CompanyLogoService;
 import pw.react.backend.services.HttpService;
 
-import javax.sql.DataSource;
-import java.util.*;
-
-import static java.util.stream.Collectors.toSet;
-
 @Configuration
 @Import({
-        NonBatchConfig.class, BatchConfig.class, OpenApiConfig.class
+        NonBatchConfig.class, BatchConfig.class, OpenApiConfig.class, StartOptimizerConfig.class
 })
 @Slf4j
 public class MainConfig {

@@ -1,17 +1,28 @@
 package pw.react.backend.repositories;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.*;
-import org.springframework.jdbc.core.namedparam.*;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 import pw.react.backend.domain.Company;
-
-import java.sql.*;
-import java.time.*;
-import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -48,7 +59,7 @@ public class CompanyBatchRepository implements BatchRepository<Company> {
                 Company company = companies.get(i);
                 ps.setString(1, company.getName());
                 ps.setInt(2, company.getBoardMembers());
-                ps.setDate(3, new java.sql.Date(ZonedDateTime.of(company.getStartDateTime(), ZoneId.systemDefault()).toInstant().toEpochMilli()));
+                ps.setTimestamp(3, new java.sql.Timestamp(ZonedDateTime.of(company.getStartDateTime(), ZoneId.systemDefault()).toInstant().toEpochMilli()));
             }
 
             @Override
@@ -90,7 +101,6 @@ public class CompanyBatchRepository implements BatchRepository<Company> {
             Object generatedId = keys.get("GENERATED_KEY"); // or keys.get("ID") depending on your DB
             if (generatedId != null) {
                 cpyCompanies.get(i).setId(((Number) generatedId).longValue());
-
             }
         }
     }
