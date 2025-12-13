@@ -1,7 +1,0 @@
-app:
-  port: ${server.port:8080}
-  actuator:
-    port: ${management.server.port:8070}
-spring:
-  banner:
-    location: it-banner.txt

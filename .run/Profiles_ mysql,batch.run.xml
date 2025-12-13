@@ -3,6 +3,7 @@
     <option name="ACTIVE_PROFILES" value="mysql,batch" />
     <module name="pw-backend-starter" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="pw.react.backend.BackendApplication" />
+    <option name="VM_PARAMETERS" value="-Dserver.port=8080 -Dmanagement.server.port=8070" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

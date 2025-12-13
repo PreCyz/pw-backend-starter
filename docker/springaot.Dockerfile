@@ -24,6 +24,7 @@ ENV JAVA_HOME=/usr/java/openjdk-25
 ENV PATH=$JAVA_HOME/bin:$PATH
 ARG AOT_DIR=/cache
 
+RUN mkdir ${AOT_DIR} && chmod 755 ${AOT_DIR}
 COPY --from=builder /javaruntime $JAVA_HOME
 
 WORKDIR /application
@@ -35,18 +36,20 @@ COPY --from=builder /builder/extracted/spring-boot-loader/ ./
 COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
 COPY --from=builder /builder/extracted/application/ ./
 
-RUN mkdir ${AOT_DIR} && chmod 755 ${AOT_DIR}
 # Continue with training run and assembly phase
 ENV SERVER_PORT=8080
 ENV MANAGEMENT_SERVER_PORT=8070
 ENV SERVER_SERVLET_CONTEXT_PATH="/"
-ENV	SPRING_PROFILES_ACTIVE=mysql,batch
+ENV	SPRING_PROFILES_ACTIVE=mysql,batch,aot-warm-up
 ENV	MYSQL_HOSTNAME=host.docker.internal
 ENV	AOT_CACHE=$AOT_DIR/app.aot
-RUN java -XX:AOTCacheOutput=$AOT_CACHE -Dspring.context.exit=onRefresh -jar app.jar
+#RUN java -XX:AOTCacheOutput=$AOT_CACHE -Dspring.context.exit=onRefresh -jar app.jar
+RUN java -XX:AOTCacheOutput=$AOT_CACHE -jar app.jar
 
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 USER appuser
+
+ENV	SPRING_PROFILES_ACTIVE=mysql,batch
 
 # Deployment run
 CMD ["/bin/sh", "-c", "java -Xlog:aot -XX:AOTCache=\"$AOT_CACHE\" -Dspring.aot.enabled=true -jar app.jar"]

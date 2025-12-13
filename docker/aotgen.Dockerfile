@@ -28,19 +28,14 @@ COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
 COPY --from=builder /builder/extracted/application/ ./
 
 ENV AOT_DIR=/cache
-RUN mkdir $AOT_DIR && chmod 777 $AOT_DIR
 ENV AOT_CACHE=/$AOT_DIR/app.aot
-
-#RUN groupadd -r appuser && useradd -r -g appuser appuser && chown -R appuser:appuser /application
-#RUN mkdir -p $AOT_DIR && chown -R appuser:appuser $AOT_DIR
-#USER appuser
-
 ENV SERVER_PORT=8080
 ENV MANAGEMENT_SERVER_PORT=8070
 ENV SERVER_SERVLET_CONTEXT_PATH="/"
-ENV	SPRING_PROFILES_ACTIVE=mysql,batch
+ENV	SPRING_PROFILES_ACTIVE=mysql,batch,aot-warm-up
 ENV	MYSQL_HOSTNAME=host.docker.internal
 
+RUN mkdir $AOT_DIR && chmod 777 $AOT_DIR
 
 #CMD ["/bin/sh","-c","mkdir -p \"$AOT_DIR\" && java -XX:AOTCacheOutput=\"${AOT_CACHE}\" -Dspring.context.exit=onRefresh -jar app.jar"]
-CMD ["/bin/sh","-c", "java -Xlog:aot,exceptions=trace -XX:AOTCacheOutput=\"${AOT_CACHE}\" -Dspring.context.exit=onRefresh -jar app.jar"]
+CMD ["/bin/sh","-c", "java -XX:AOTCacheOutput=\"${AOT_CACHE}\" -jar app.jar"]
