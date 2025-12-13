@@ -44,7 +44,7 @@ public class CompanyController {
     private final CompanyLogoService companyLogoService;
 
     @PostMapping(path = "")
-    public ResponseEntity<Collection<CompanyResponse>> createCompanies(@RequestHeader HttpHeaders headers,
+    public ResponseEntity<List<CompanyResponse>> createCompanies(@RequestHeader HttpHeaders headers,
                                                                        @Valid @RequestBody List<CreateCompanyRequest> companies) {
         logHeaders(headers);
         List<Company> createdCompanies = companyMapper.createRequestToCompanyList(companies);
