@@ -49,7 +49,5 @@ RUN java -XX:AOTCacheOutput=$AOT_CACHE -jar app.jar
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 USER appuser
 
-ENV	SPRING_PROFILES_ACTIVE=mysql,batch
-
 # Deployment run
-CMD ["/bin/sh", "-c", "java -Xlog:aot -XX:AOTCache=\"$AOT_CACHE\" -jar app.jar"]
+CMD ["/bin/sh", "-c", "java -Xlog:aot -XX:AOTCache=\"$AOT_CACHE\" -Dspring.profiles.active=mysql,batch,first-request -jar app.jar"]

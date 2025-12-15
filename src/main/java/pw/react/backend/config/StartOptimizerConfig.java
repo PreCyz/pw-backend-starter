@@ -47,7 +47,7 @@ public class StartOptimizerConfig {
     }
 
     @Bean
-    @Profile("!aot-warm-up")
+    @Profile("first-request")
     public ApplicationListener<ApplicationReadyEvent> applicationReadyListener(
             final RestTemplate restTemplate,
             @Value("${server.port}") final String serverPort,

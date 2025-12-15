@@ -33,3 +33,18 @@ services:
     ports:
       - "8085:8080"
       - "8075:8070"
+
+  external-cache-frs:
+    build:
+      context: ..
+      dockerfile: docker/springaotext.Dockerfile
+    environment:
+      AOT_DIR: /cache
+    volumes:
+      - ./cache:/cache
+    depends_on:
+      generator:
+        condition: service_completed_successfully
+    ports:
+      - "8086:8080"
+      - "8076:8070"

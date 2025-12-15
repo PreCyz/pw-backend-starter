@@ -34,7 +34,6 @@ ENV SERVER_PORT=8080
 ENV MANAGEMENT_SERVER_PORT=8070
 ENV SERVER_SERVLET_CONTEXT_PATH="/"
 ENV	SPRING_PROFILES_ACTIVE=mysql,batch,aot-warm-up
-#ENV	SPRING_PROFILES_ACTIVE=mysql,batch
 ENV	MYSQL_HOSTNAME=host.docker.internal
 
 #CMD ["/bin/sh","-c", "java -Xlog:aot,exceptions=trace -XX:AOTCacheOutput=\"${AOT_CACHE}\" -Dspring.context.exit=onRefresh -jar app.jar"]

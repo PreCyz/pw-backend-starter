@@ -166,6 +166,7 @@
               <profiles>
                 <profile>mysql</profile>
                 <profile>batch</profile>
+                <profile>first-request</profile>
               </profiles>
               <layers>
                 <enabled>true</enabled>
