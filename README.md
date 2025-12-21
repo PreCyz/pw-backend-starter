@@ -3,7 +3,7 @@ This is the starter for the backend application.
 
 ### Installed Prerequisites
 In order to launch the application the following items must be installed:
-* [Java 21](https://adoptopenjdk.net/)
+* [Java 25](https://adoptopenjdk.net/)
 * [Maven](https://maven.apache.org/download.cgi)
 * [MySQL Community Server + Workbench](https://dev.mysql.com/downloads/installer/)
 * [Git](https://git-scm.com/downloads)
@@ -44,9 +44,7 @@ RDS_PORT 3306 //MySQL server port
 RDS_USERNAME root //database user
 SERVER_PORT 5000 //it must be 5000 and it is defined in the application.properties
 CORS urls of the frontend and backends for the bookly. Default value is *
-SPRING_PROFILES_ACTIVE aws-mysql,jwt,batch
-TOKEN_SECRET [optional] some secret value best if generated randommly
-JWT_EXPIRATION_TIME [optional] by default token expires in 24 hours, it must be given in miliseconds
+SPRING_PROFILES_ACTIVE aws-mysql
 ```
 6. IMPORTANT: Add inbound rule to the db security group to allow access all inbound ips. Mysql/Aurora anywhere.
 
@@ -65,9 +63,7 @@ MYSQL_PASSWORD MySQL password set during the creation
 MYSQL_PORT 3306 //MySQL server port
 MYSQL_USERNAME root //database user
 CORS urls of the frontend and backends for the bookly. Default value is *
-SPRING_PROFILES_ACTIVE azure-mysql,jwt,batch
-TOKEN_SECRET [optional] some secret value best if generated randommly
-JWT_EXPIRATION_TIME [optional] by default token expires in 24 hours, it must be given in miliseconds
+SPRING_PROFILES_ACTIVE azure-mysql
 ```
 7. IMPORTANT: In order to have access to the MySQL database, one have to change `Allow access to Azure services
    ` to `Yes` and add `Firewall rule` to access the database from specific IP (like home).
