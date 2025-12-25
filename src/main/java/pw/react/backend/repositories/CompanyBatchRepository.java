@@ -48,7 +48,7 @@ public class CompanyBatchRepository implements BatchRepository<Company> {
                 Company company = companies.get(i);
                 ps.setString(1, company.getName());
                 ps.setInt(2, company.getBoardMembers());
-                ps.setDate(3, new java.sql.Date(ZonedDateTime.of(company.getStartDateTime(), ZoneId.systemDefault()).toInstant().toEpochMilli()));
+                ps.setTimestamp(3, new java.sql.Timestamp(ZonedDateTime.of(company.getStartDateTime(), ZoneId.systemDefault()).toInstant().toEpochMilli()));
             }
 
             @Override
