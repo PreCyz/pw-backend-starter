@@ -1,13 +1,14 @@
 package pw.react.backend.services;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import pw.react.backend.domain.Company;
 import pw.react.backend.exceptions.ResourceNotFoundException;
 import pw.react.backend.repositories.CompanyRepository;
-
-import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -17,23 +18,22 @@ public class CompanyMainService implements CompanyService {
 
     @Override
     public Company updateCompany(Long id, Company updatedCompany) throws ResourceNotFoundException {
-        if (repository.existsById(id)) {
-            updatedCompany.setId(id);
-            Company result = repository.save(updatedCompany);
-            log.info("Company with id {} updated.", id);
-            return result;
-        }
-        throw new ResourceNotFoundException(String.format("Company with id [%d] not found.", id));
+        Company company = repository.getReferenceById(id);
+        company.setName(updatedCompany.getName());
+        company.setBoardMembers(updatedCompany.getBoardMembers());
+        Company result = repository.save(company);
+        log.info("Company with id {} updated.", id);
+        return result;
     }
 
     @Override
     public boolean deleteCompany(Long companyId) {
         boolean result = false;
-        if (repository.existsById(companyId)) {
+//        if (repository.existsById(companyId)) {
             repository.deleteById(companyId);
             log.info("Company with id {} deleted.", companyId);
             result = true;
-        }
+//        }
         return result;
     }
 

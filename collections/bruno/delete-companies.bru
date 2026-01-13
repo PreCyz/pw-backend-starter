@@ -1,0 +1,15 @@
+meta {
+  name: delete-companies
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/companies/271
+  body: none
+  auth: inherit
+}
+
+headers {
+  security-header: secureMe
+}

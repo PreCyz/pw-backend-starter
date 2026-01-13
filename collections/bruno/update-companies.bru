@@ -1,0 +1,22 @@
+meta {
+  name: update-companies
+  type: http
+  seq: 9
+}
+
+put {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/companies/270
+  body: json
+  auth: inherit
+}
+
+headers {
+  security-header: secureMe
+}
+
+body:json {
+  {
+      "name" : "Grzegorz jest super",
+      "boardMembers" : 2
+  }
+}
