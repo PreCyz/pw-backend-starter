@@ -17,13 +17,13 @@ public class CompanyMainService implements CompanyService {
 
     @Override
     public Company updateCompany(Long id, Company updatedCompany) throws ResourceNotFoundException {
-        if (repository.existsById(id)) {
-            updatedCompany.setId(id);
-            Company result = repository.save(updatedCompany);
-            log.info("Company with id {} updated.", id);
-            return result;
-        }
-        throw new ResourceNotFoundException(String.format("Company with id [%d] not found.", id));
+        Company company = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Company with id [%d] not found.", id)));
+        company.setName(updatedCompany.getName());
+        company.setBoardMembers(updatedCompany.getBoardMembers());
+
+        Company result = repository.save(company);
+        log.info("Company with id {} updated.", id);
+        return result;
     }
 
     @Override

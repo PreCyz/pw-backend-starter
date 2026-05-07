@@ -5,12 +5,12 @@ meta {
 }
 
 get {
-  url: {{PROTOCOL}}://{{DOMAIN_URL}}/companies?page=1&size=2
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/companies
   body: none
   auth: inherit
 }
 
 params:query {
-  page: 1
-  size: 2
+  ~page: 0
+  ~size: 5
 }

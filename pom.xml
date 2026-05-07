@@ -5,8 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>4.0.0</version>
-    <relativePath/> <!-- lookup parent from repository -->
+    <version>4.0.5</version>
   </parent>
   <groupId>pw.react</groupId>
   <artifactId>pw-backend-starter</artifactId>
@@ -21,6 +20,7 @@
     <lombok.version>1.18.42</lombok.version>
     <maven.compiler.source>25</maven.compiler.source>
     <maven.compiler.target>25</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <dependencies>
@@ -147,6 +147,11 @@
             <arg>-Amapstruct.defaultComponentModel=spring</arg>
           </compilerArgs>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.5.0</version>
       </plugin>
     </plugins>
   </build>

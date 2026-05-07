@@ -1,0 +1,22 @@
+meta {
+  name: update-companies
+  type: http
+  seq: 7
+}
+
+put {
+  url: {{PROTOCOL}}://{{DOMAIN_URL}}/companies/84
+  body: json
+  auth: inherit
+}
+
+headers {
+  security-header: secureMe
+}
+
+body:json {
+  {
+    "name" : "Debezium",
+    "boardMembers" : 3
+  }
+}

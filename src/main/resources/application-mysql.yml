@@ -12,6 +12,7 @@ spring:
       minimum-idle: 10
       pool-name: db-conn-pool
       connection-test-query: select 1 from dual
+      auto-commit: false
       data-source-properties:
         cachePrepStmts: true
         prepStmtCacheSize: 250

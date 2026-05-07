@@ -3,31 +3,12 @@ logs/
 helps/
 docker/*.jar
 
-.mvn/
-mvnw
-mvnw.cmd
 !**/src/main/**/target/
 !**/src/test/**/target/
 .azure
-
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
 
 ### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
-
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
-!.elasticbeanstalk/saved_configs
