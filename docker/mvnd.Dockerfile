@@ -12,6 +12,7 @@ ENV JAVA_HOME="/opt/java/openjdk"
 WORKDIR /app
 COPY .mvn ./.mvn
 COPY pom.xml .
+RUN mvnd dependency:go-offline -B
 COPY src ./src
 
 CMD ["mvnd", "clean", "install", "-Dmaven.build.cache.enabled=true"]

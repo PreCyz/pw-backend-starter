@@ -1,0 +1,9 @@
+<cache xmlns="http://maven.apache.org/BUILD-CACHE/1.0.0">
+    <configuration>
+        <enabled>true</enabled>
+        <hashAlgorithm>XXH64</hashAlgorithm> <!-- Szybszy niż SHA-256 przy dużej liczbie plików -->
+        <!--<remote enabled="true">
+            <url>http://twoj-storage-cache.local/maven-cache</url> &lt;!&ndash; Opcjonalnie: współdzielony cache dla całego zespołu &ndash;&gt;
+        </remote>-->
+    </configuration>
+</cache>

@@ -13,11 +13,11 @@ import pw.react.backend.dto.request.CreateCompanyRequest;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ActiveProfiles({"it"})
-@Disabled
 class HttpServiceTest {
     @Autowired
     private RestTemplate restTemplate;
@@ -25,6 +25,7 @@ class HttpServiceTest {
     private String azureUrl;
 
     @Test
+    @Disabled
     void givenUserNameAndPassword_whenLogin_thenReceiveToken() {
         HttpHeaders headers = new HttpHeaders();
 
@@ -36,5 +37,10 @@ class HttpServiceTest {
         );
 
         assertNotNull(response3.getBody());
+    }
+
+    @Test
+    void onlyAssertions() {
+        assertThat(restTemplate).isNotNull();
     }
 }
