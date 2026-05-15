@@ -1,0 +1,6 @@
+<cache xmlns="http://maven.apache.org/BUILD-CACHE/1.0.0">
+    <configuration>
+        <enabled>true</enabled>
+        <hashAlgorithm>XX</hashAlgorithm>
+    </configuration>
+</cache>

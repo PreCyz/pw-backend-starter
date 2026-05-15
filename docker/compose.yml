@@ -23,3 +23,11 @@ services:
     ports:
       - "8082:8080"
       - "8072:8070"
+
+  bitnami:
+    build:
+      context: ..
+      dockerfile: docker/bitnami.layer.Dockerfile
+    ports:
+      - "8083:8080"
+      - "8073:8070"
