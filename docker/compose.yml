@@ -31,3 +31,19 @@ services:
     ports:
       - "8083:8080"
       - "8073:8070"
+
+  custom-bitnami:
+    build:
+      context: ..
+      dockerfile: docker/custom.bitnami.Dockerfile
+    ports:
+      - "8084:8080"
+      - "8074:8070"
+
+  min-bitnami:
+    build:
+      context: ..
+      dockerfile: docker/custom.bitnami.Dockerfile
+    ports:
+      - "8085:8080"
+      - "8075:8070"
